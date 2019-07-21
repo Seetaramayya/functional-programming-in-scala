@@ -156,5 +156,15 @@ class ListSpec extends WordSpec with Matchers {
       merge(List(1, 2, 3), List(4, 5, 6)) shouldBe List(5, 7, 9)
       merge2(List(1, 2, 3), List(4, 5, 6)) shouldBe List(5, 7, 9)
     }
+
+    "return true if given sub sequence present in sup sequence otherwise false: '#hasSubSequence'" in {
+      hasSubSequence(List(1, 2, 3, 4), List(1, 2, 3, 4)) shouldBe true
+      hasSubSequence(List(1, 2, 3, 4), List(1, 2)) shouldBe true
+      hasSubSequence(List(1, 2, 3, 4), List(2, 3)) shouldBe true
+      hasSubSequence(List(1, 2, 3, 4), List(4)) shouldBe true
+      hasSubSequence(List(1, 2, 3, 4), Nil) shouldBe true
+
+      hasSubSequence(List(1, 2, 3, 4), List(3, 2)) shouldBe false
+    }
   }
 }

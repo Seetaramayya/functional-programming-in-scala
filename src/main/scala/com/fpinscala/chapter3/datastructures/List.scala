@@ -147,4 +147,12 @@ object List {
 
   // Exercise 3.22.1
   def merge2(l1: List[Int], l2: List[Int]): List[Int] = zipWith(l1, l2)(_ + _)
+
+  // Exercise 3.24
+  def hasSubSequence[A](sup: List[A], sub: List[A]): Boolean = (sup, sub) match {
+    case (_, Nil) => true
+    case (Nil, _) => false
+    case (Cons(h1, t1), Cons(h2, t2)) if h1 == h2 => foldLeft(zipWith(t1, t2)(_ == _), true)(_ && _)
+    case (Cons(_, t1), Cons(h2, t2)) => hasSubSequence(t1, Cons(h2, t2))
+  }
 }
