@@ -101,4 +101,50 @@ object List {
   def append2[A](l1: List[A], l2: List[A]): List[A] = foldRight(l1, l2)((elem, acc) => Cons(elem, acc))
 
   def concat[A](l: List[List[A]]): List[A] = foldRight(l, List[A]())(append2)
+
+  /**
+    * Exercise 3.16: map function can be used but implementing differently
+    * @param l list of integers
+    * @return list of integers with plus one
+    */
+  def map2(l: List[Int]): List[Int] = l match {
+    case Nil => Nil
+    case Cons(h, tail) => Cons(h + 1, map2(tail))
+  }
+
+  /**
+    * Exercise 3.17: map function can be used but implementing differently
+    * @param l list of integers
+    * @return list of integers with plus one
+    */
+  def map3(l: List[Double]): List[String] = l match {
+    case Nil => Nil
+    case Cons(h, tail) => Cons(h.toString, map3(tail))
+  }
+
+  // Exercise 3.19
+  def filter[A](l: List[A])(f: A => Boolean): List[A] = foldRight(l, List[A]())((elem, acc) => if (f(elem)) Cons(elem, acc) else acc)
+
+  // Exercise 3.20
+  def flatMap[A, B](l: List[A])(f: A => List[B]): List[B] = foldRight(l, List[B]())((elem, acc) => append(f(elem), acc))
+
+  // Exercise 3.21
+  def filter2[A](l: List[A])(f: A => Boolean): List[A] = flatMap(l)(a => if(f(a)) List(a) else List())
+
+  def zip[A, B](l1: List[A], l2: List[B]): List[(A, B)] = zipWith(l1, l2)((a, b) => (a, b))
+
+  // Exercise 3.23
+  def zipWith[A, B, C](l1: List[A], l2: List[B])(f: (A, B) => C): List[C] = (l1, l2) match {
+    case (_, Nil) => Nil
+    case (Nil, _) => Nil
+    case (Cons(h1, xs1), Cons(h2, xs2)) => Cons(f(h1, h2), zipWith(xs1, xs2)(f))
+  }
+
+  // Exercise 3.22
+  def merge(l1: List[Int], l2: List[Int]): List[Int] = map(zip[Int, Int](l1, l2)) {
+    case (a, b) => a + b
+  }
+
+  // Exercise 3.22.1
+  def merge2(l1: List[Int], l2: List[Int]): List[Int] = zipWith(l1, l2)(_ + _)
 }

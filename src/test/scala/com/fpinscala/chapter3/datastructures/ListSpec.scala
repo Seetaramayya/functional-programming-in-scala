@@ -83,8 +83,14 @@ class ListSpec extends WordSpec with Matchers {
 
     "return number of elements in the list for: '#map'" in {
       map(List(1, 2, 3))(_ + 1) shouldBe List(2, 3, 4)
+      map2(List(1, 2, 3)) shouldBe List(2, 3, 4)
+
       map(List(1, 2, 3))(_ * 2) shouldBe List(2, 4, 6)
       map(List[Int]())(_ * 2) shouldBe Nil
+    }
+
+    "return the list after applying given function for: '#flatMap'" in {
+      flatMap(List(1, 2, 3))(x => List(x, x)) shouldBe List(1, 1, 2, 2, 3, 3)
     }
 
     "return sum of elements in the list for: '#sum3'" in {
@@ -115,6 +121,40 @@ class ListSpec extends WordSpec with Matchers {
 
     "return flatten list : '#concat'" in {
       concat(List(List(1, 2), List(3), List(4, 5, 6))) shouldBe List(1, 2, 3, 4, 5, 6)
+    }
+
+    "return elements that satisfy the predicate with : '#filter'" in {
+      filter(List(1, 2, 3, 4, 5, 6, 7))(_ % 2 == 0) shouldBe List(2, 4, 6)
+      filter2(List(1, 2, 3, 4, 5, 6, 7))(_ % 2 == 0) shouldBe List(2, 4, 6)
+
+      filter(List(1, 2, 3, 4, 5, 6, 7))(_ % 2 != 0) shouldBe List(1, 3, 5, 7)
+      filter2(List(1, 2, 3, 4, 5, 6, 7))(_ % 2 != 0) shouldBe List(1, 3, 5, 7)
+    }
+
+    "return zipped elements for given lists with : '#zip'" in {
+      zip(List(1, 2, 3, 4), List(5, 6)) shouldBe List((1, 5), (2, 6))
+      zip(List(1), List(5, 6, 7 ,8)) shouldBe List((1, 5))
+      zip(List(), List(5, 6, 7 ,8)) shouldBe List()
+      zip(List(1, 2, 3), List()) shouldBe List()
+
+      zip(List(1, 2, 3), List(4, 5, 6)) shouldBe List((1, 4), (2, 5), (3, 6))
+    }
+
+    "return sum of two equal size integer lists with : '#merge'" in {
+      merge(List(1, 2, 3, 4), List(5, 6)) shouldBe List(6, 8)
+      merge2(List(1, 2, 3, 4), List(5, 6)) shouldBe List(6, 8)
+
+      merge(List(1), List(5, 6, 7 ,8)) shouldBe List(6)
+      merge2(List(1), List(5, 6, 7 ,8)) shouldBe List(6)
+
+      merge(List(), List(5, 6, 7 ,8)) shouldBe List()
+      merge2(List(), List(5, 6, 7 ,8)) shouldBe List()
+
+      merge(List(1, 2, 3), List()) shouldBe List()
+      merge2(List(1, 2, 3), List()) shouldBe List()
+
+      merge(List(1, 2, 3), List(4, 5, 6)) shouldBe List(5, 7, 9)
+      merge2(List(1, 2, 3), List(4, 5, 6)) shouldBe List(5, 7, 9)
     }
   }
 }
