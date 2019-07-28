@@ -4,16 +4,23 @@ This repository contains solved exercises in [Functional Programming in Scala](h
 
 Chapter descriptions:
 
-* Chapter 3: datastructures
-* Chapter 4: errorhandling
-* Chapter 5: laziness
-* Chapter 6: state
-* Chapter 7: parallelism
-* Chapter 8: testing
-* Chapter 9: parsing
-* Chapter 10: monoids
-* Chapter 11: monads
-* Chapter 12: applicative
-* Chapter 13: iomonad
-* Chapter 14: localeffects
-* Chapter 15: streamingio
+* Part 1: Introduction to functional programing
+  * ✅ Chapter 3: Functional data structures (page number: 29)
+  * ✅ Chapter 4: Handling errors without exceptions (page number: 48)
+  * Chapter 5: Strictness and laziness (page number: 64)
+  * Chapter 6: Purely functional state (page number: 78)
+
+* Part 2: Functional Design and combinator libraries
+  * Chapter 7: Purely functional parallelism (page number: 95)
+  * Chapter 8: Property-based testing (page number: 124)
+  * Chapter 9: Parser Combinator (page number: 146)
+
+* Part 3: Functional Design Patterns
+  * Chapter 10: Monoids (page number: 175)
+  * Chapter 11: Monads (page number: 187)
+  * Chapter 12: Applicative and traversable functors (page number: 205)
+
+* Part 4: Breaking the rules: Effects and I/O
+  * Chapter 13: External effects and I/O (page number: 229)
+  * Chapter 14: local effects and the ST monad (page number: 254)
+  * Chapter 15: Stream processing and incremental (page number: 268)
