@@ -10,11 +10,15 @@ class StreamSpec extends FunSuite with Matchers {
 
   test("testTakeWhile") {
     Stream(2, 2, 2, 4, 5).takeWhile(_ == 2).toList shouldBe List(2, 2, 2)
+    Stream(1, 2, 2, 4, 5).takeWhile(_ == 2).toList shouldBe List()
+
+    Stream(1, 2, 2, 4, 5).takeWhileViaFoldRight(_ == 2).toList shouldBe List()
     Stream(2, 2, 2, 4, 5).takeWhileViaFoldRight(_ == 2).toList shouldBe List(2, 2, 2)
     Stream(2, 2, 2, 4, 5).takeWhileViaFoldRight(_ % 2 == 0).toList shouldBe List(2, 2, 2, 4)
 
-    Stream(1, 2, 2, 4, 5).takeWhile(_ == 2).toList shouldBe List()
-    Stream(1, 2, 2, 4, 5).takeWhileViaFoldRight(_ == 2).toList shouldBe List()
+    Stream(1, 2, 2, 4, 5).takeWhileViaUnfold(_ == 2).toList shouldBe List()
+    Stream(2, 2, 2, 4, 5).takeWhileViaUnfold(_ == 2).toList shouldBe List(2, 2, 2)
+    Stream(2, 2, 2, 4, 5).takeWhileViaUnfold(_ % 2 == 0).toList shouldBe List(2, 2, 2, 4)
   }
 
   test("testFind") {
@@ -33,10 +37,18 @@ class StreamSpec extends FunSuite with Matchers {
     Stream(1, 2, 3, 4, 5).take(1).toList shouldBe List(1)
     Stream(1, 2, 3, 4, 5).take(3).toList shouldBe List(1, 2, 3)
     Stream(1, 2, 3, 4, 5).take(6).toList shouldBe List(1, 2, 3, 4, 5)
+
+    Stream(1, 2, 3, 4, 5).takeViaUnfold(0) shouldBe Empty
+    Stream(1, 2, 3, 4, 5).takeViaUnfold(1).toList shouldBe List(1)
+    Stream(1, 2, 3, 4, 5).takeViaUnfold(3).toList shouldBe List(1, 2, 3)
+    Stream(1, 2, 3, 4, 5).takeViaUnfold(6).toList shouldBe List(1, 2, 3, 4, 5)
   }
 
   test("map") {
     Stream(1, 2, 3, 4, 5).map(_ + 10).toList shouldBe (11 to 15).toList
+
+    Stream(1, 2, 3, 4, 5).mapViaUnfold(_ + 10).toList shouldBe (11 to 15).toList
+    Stream.empty[Int].mapViaUnfold(_ + 10).toList shouldBe List()
   }
 
   test("filter") {
@@ -56,6 +68,7 @@ class StreamSpec extends FunSuite with Matchers {
 
   test("fibonacci numbers") {
     Stream.fibs().take(10).toList shouldBe List(0, 1, 1, 2, 3, 5, 8, 13, 21, 34)
+    Stream.fibsViaUnfold().take(10).toList shouldBe List(0, 1, 1, 2, 3, 5, 8, 13, 21, 34)
   }
 
   test("testHeadOption") {
@@ -94,6 +107,14 @@ class StreamSpec extends FunSuite with Matchers {
 
   test("testStartsWith") {
 
+  }
+
+  test("zipWith") {
+    Stream(1, 2, 3, 4).zipWith(Stream("seeta", "vadali"))(_ + _).toList shouldBe List("1seeta", "2vadali")
+  }
+
+  test("zipAll") {
+    Stream(1, 2, 3, 4).zipAll(Stream("seeta", "vadali")).toList shouldBe List((Some(1), Some("seeta")), (Some(2), Some("vadali")), (Some(3), None), (Some(4), None))
   }
 
 }
