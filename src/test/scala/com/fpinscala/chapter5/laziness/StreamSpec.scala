@@ -21,6 +21,11 @@ class StreamSpec extends FunSuite with Matchers {
     Stream(2, 2, 2, 4, 5).takeWhileViaUnfold(_ % 2 == 0).toList shouldBe List(2, 2, 2, 4)
   }
 
+  test("testDropWhile") {
+    Stream(2, 2, 2, 4, 5).dropWhile(_ == 2).toList shouldBe List(4, 5)
+    Stream(1, 2, 2, 4, 5).dropWhile(_ == 2).toList shouldBe List(1, 2, 2, 4, 5)
+  }
+
   test("testFind") {
     Stream.naturalNumbers.find(_ == 10) shouldBe Some(10)
     Stream.naturalNumbers.findViaFilter(_ == 10) shouldBe Some(10)
@@ -102,11 +107,25 @@ class StreamSpec extends FunSuite with Matchers {
   }
 
   test("testFoldRight") {
+    Stream(1, 2, 3).foldRight(0)(_ + _) shouldBe 6
+  }
 
+  test("testScanRight") {
+    Stream(1, 2, 3).scanRight(0)(_ + _).toList shouldBe List(6, 5, 3, 0)
   }
 
   test("testStartsWith") {
+    Stream(1, 2, 3) startsWith Stream(1, 2) shouldBe true
+    Stream(1, 2, 3) startsWith Stream(1, 2, 3) shouldBe true
+    Stream(1, 2, 3) startsWith Stream(1, 2, 3, 4) shouldBe true
 
+    Stream(1, 2, 3) startsWith Stream(1, 3, 4) shouldBe false
+    Stream(1, 2, 3) startsWith Stream(2, 3, 4) shouldBe false
+    Stream() startsWith Stream(1, 2) shouldBe false
+  }
+
+  test("testTails") {
+    Stream(1, 2, 3).tails.map(_.toList).toList shouldBe List(List(1, 2, 3), List(2, 3), List(3), List())
   }
 
   test("zipWith") {
@@ -115,6 +134,27 @@ class StreamSpec extends FunSuite with Matchers {
 
   test("zipAll") {
     Stream(1, 2, 3, 4).zipAll(Stream("seeta", "vadali")).toList shouldBe List((Some(1), Some("seeta")), (Some(2), Some("vadali")), (Some(3), None), (Some(4), None))
+  }
+
+  test("hasSubSequence") {
+    Stream(1, 2, 3, 4, 5, 6).hasSubSequenceFirstWay(Stream(1, 2)) shouldBe true
+    Stream(1, 2, 3, 4, 5, 6).hasSubSequenceFirstWay(Stream(2, 3)) shouldBe true
+    Stream(1, 2, 3, 4, 5, 6).hasSubSequenceFirstWay(Stream(4, 5, 6)) shouldBe true
+
+    Stream(1, 2, 3, 4, 5, 6).hasSubSequence(Stream(1, 2)) shouldBe true
+    Stream(1, 2, 3, 4, 5, 6).hasSubSequence(Stream(2, 3)) shouldBe true
+    Stream(1, 2, 3, 4, 5, 6).hasSubSequence(Stream(4, 5, 6)) shouldBe true
+
+    Stream().hasSubSequenceFirstWay(Stream()) shouldBe true
+    Stream(1).hasSubSequenceFirstWay(Stream()) shouldBe true
+    Stream(1, 2).hasSubSequenceFirstWay(Stream()) shouldBe true
+
+    Stream().hasSubSequence(Stream()) shouldBe true
+    Stream(1).hasSubSequence(Stream()) shouldBe true
+    Stream(1, 2).hasSubSequence(Stream()) shouldBe true
+
+    Stream(1, 2, 3, 4, 5, 6).hasSubSequenceFirstWay(Stream(4, 6)) shouldBe false
+    Stream(1, 2, 3, 4, 5, 6).hasSubSequence(Stream(4, 6)) shouldBe false
   }
 
 }

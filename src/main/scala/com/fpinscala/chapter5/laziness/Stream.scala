@@ -58,6 +58,12 @@ trait Stream[+A] {
     case _ => empty
   }
 
+  def dropWhile(p: A => Boolean): Stream[A] = this match {
+    case Empty                => empty
+    case Cons(h, t) if p(h()) => t().dropWhile(p)
+    case Cons(h, t)           => Cons(h, t)
+  }
+
   /**
     * Exercise 5.4: Implement forAll using foldRight
     * @param p predicate (is a function that takes element and returns boolean value)
@@ -101,8 +107,6 @@ trait Stream[+A] {
     */
   def flatMap[B](f: A => Stream[B]): Stream[B] = foldRight(empty[B])((h, t) => f(h).append(t))
 
-  def startsWith[B](s: Stream[B]): Boolean = ???
-
   /**
     * Exercise 5.13: implement map, take, takeWhile, zipWith and zipAll using unfold
     */
@@ -130,6 +134,32 @@ trait Stream[+A] {
     case (Cons(h1, t1), Empty)        => Some((Some(h1()), None), (t1(), Empty))
     case (Cons(h1, t1), Cons(h2, t2)) => Some((Some(h1()), Some(h2())), (t1(), t2()))
   }
+
+  /**
+    * Exercise 5._
+    */
+  def hasSubSequenceFirstWay[A1 >: A](sub: Stream[A1]): Boolean = dropWhile(a => !sub.headOption.contains(a)).zipWith(sub)(_ == _).forAll(identity)
+
+  def hasSubSequence[B >: A](s: Stream[B]): Boolean = tails.exists(_.startsWith(s))
+
+  /**
+    * Exercise 5.14: Implement start with using functions above, it checks one stream is a prefix of another
+    */
+  def startsWith[B](s: Stream[B]): Boolean = this match {
+    case Empty if s != Empty => false
+    case _                   => zipWith(s)(_ == _).forAll(identity)
+  }
+
+  /**
+    * Exercise 5.15: Implement using unfold
+    */
+  def tails: Stream[Stream[A]] = unfold(this) {
+    case Empty => None
+    case stream => Some((stream, stream.drop(1)))
+  } append Stream(empty)
+
+  def scanRight[B](z: => B)(f: (A, => B) => B): Stream[B] = tails.map(s => s.foldRight(z)(f))
+
 }
 
 case object Empty extends Stream[Nothing]
@@ -143,6 +173,8 @@ object Stream {
   }
 
   def empty[A]: Stream[A] = Empty
+
+  def single[A](a: A): Stream[A] = cons(a, Empty)
 
   def apply[A](as: A*): Stream[A] = if (as.isEmpty) empty else cons(as.head, apply(as.tail: _*))
 

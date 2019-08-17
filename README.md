@@ -13,7 +13,7 @@ Chapter descriptions:
       def traverse[E, A, B](l: List[A])(f: A => Either[E, B]): Either[E, List[B]]
     
     ```  
-  * Chapter 5: Strictness and laziness (page number: 64)
+  * ✅ Chapter 5: Strictness and laziness (page number: 64)
   * Chapter 6: Purely functional state (page number: 78)
 
 * Part 2: Functional Design and combinator libraries
