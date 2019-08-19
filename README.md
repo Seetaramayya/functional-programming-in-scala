@@ -14,7 +14,7 @@ Chapter descriptions:
     
     ```  
   * ✅ Chapter 5: Strictness and laziness (page number: 64)
-  * Chapter 6: Purely functional state (page number: 78)
+  * ✅ Chapter 6: Purely functional state (page number: 78)
 
 * Part 2: Functional Design and combinator libraries
   * Chapter 7: Purely functional parallelism (page number: 95)
