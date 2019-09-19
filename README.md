@@ -31,6 +31,11 @@ Chapter descriptions:
   * Chapter 14: local effects and the ST monad (page number: 254)
   * Chapter 15: Stream processing and incremental (page number: 268)
   
+  
+### Cats Kernel 
+
+   Cats kernel laws, dumping these laws here for now.
+  
 |        Name         | Associative? | Commutative? | Identity? | Inverse? | Idempotent? |
 |-------------------- |--------------|--------------|-----------|----------|-------------|
 |Semigroup            |      ✅      |              |           |          |             |
