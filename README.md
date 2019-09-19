@@ -30,3 +30,15 @@ Chapter descriptions:
   * Chapter 13: External effects and I/O (page number: 229)
   * Chapter 14: local effects and the ST monad (page number: 254)
   * Chapter 15: Stream processing and incremental (page number: 268)
+  
+|        Name         | Associative? | Commutative? | Identity? | Inverse? | Idempotent? |
+|-------------------- |--------------|--------------|-----------|----------|-------------|
+|Semigroup            |      ✅      |              |           |          |             |
+|CommutativeSemigroup |      ✅      |      ✅      |           |          |             |
+|Monoid               |      ✅      |              |     ✅    |          |             |
+|Band                 |      ✅      |              |           |          |     ✅      |
+|Semilattice          |      ✅      |      ✅      |           |          |     ✅      |
+|Group                |      ✅      |              |    ✅     |    ✅    |             |
+|CommutativeMonoid    |      ✅      |      ✅      |    ✅     |          |             |
+|CommutativeGroup     |      ✅      |      ✅      |    ✅     |    ✅    |             |
+|BoundedSemilattice   |      ✅      |      ✅      |    ✅     |          |     ✅      |
